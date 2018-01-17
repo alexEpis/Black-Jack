@@ -1,3 +1,5 @@
+import json
+
 
 class TicTacToe(object):
 
@@ -53,6 +55,8 @@ class TicTacToe(object):
                 print('Player {} wins!'.format(config[2]))
                 self.game_ended = True
                 return config[2]
+        if self.possible_moves is []:
+            self.game_ended = True
         return 'n'
 
     def play_game(self):
@@ -69,9 +73,21 @@ class TicTacToe(object):
             self.calc_winner()
 
 
-game = TicTacToe()
-game.play_game()
+class Player(object):
+
+    def __init__(self):
+        self.state_values = json.load(open("states.txt"))
+
+    def update_states(self):
+        json.dump(self.state_values, open("states.txt", 'w'))
+
+    def take_move(self, possible_moves):
+        for move in possible_moves:
+            if move not in self.state_values:
+                self.state_values[move] = 0.5
+
+# game = TicTacToe()
+# game.play_game()
 # print(game.calc_winner('XOnXOnnXn'))
 # print(game.game_ended)
-
-
+# read()
